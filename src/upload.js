@@ -22,6 +22,12 @@ function setMessage(text, isError = false) {
   formMessage.className = `form-message ${isError ? "error" : ""}`.trim()
 }
 
+function getErrorMeta(error) {
+  const code = error?.code || "unknown"
+  const message = error?.message || "알 수 없는 오류"
+  return { code, message }
+}
+
 function fileToDataURL(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -131,8 +137,10 @@ submitBtn.addEventListener("click", async () => {
     )
 
     location.href = "index.html"
-  } catch {
+  } catch (error) {
+    const meta = getErrorMeta(error)
+    console.error("[Upload Error]", meta.code, meta.message, error)
     submitBtn.disabled = false
-    setMessage("업로드에 실패했습니다. 다시 시도해주세요.", true)
+    setMessage(`업로드 실패 (${meta.code})`, true)
   }
 })
