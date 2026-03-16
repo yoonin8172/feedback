@@ -48,6 +48,10 @@ function normalizeNickname(name) {
   return (name || "").trim()
 }
 
+function normalizeKey(name) {
+  return normalizeNickname(name).toLowerCase()
+}
+
 export function getCurrentUser() {
   return readUser()
 }
@@ -58,14 +62,16 @@ export function signInWithNickname(name) {
     throw new Error("닉네임을 입력해주세요.")
   }
 
-  const isAllowed = ALLOWED_NICKNAMES.includes(nickname)
-  if (!isAllowed) {
+  const matchedNickname = ALLOWED_NICKNAMES.find(
+    (allowed) => normalizeKey(allowed) === normalizeKey(nickname)
+  )
+  if (!matchedNickname) {
     throw new Error("사전에 안내된 닉네임만 사용할 수 있어요.")
   }
 
   const user = {
-    id: `nick:${nickname}`,
-    name: nickname,
+    id: `nick:${normalizeKey(matchedNickname)}`,
+    name: matchedNickname,
     createdAt: new Date().toISOString()
   }
 

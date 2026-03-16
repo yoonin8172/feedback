@@ -117,7 +117,7 @@ submitBtn.addEventListener("click", async () => {
       }))
     )
 
-    addPost(
+    await addPost(
       {
         media,
         description,

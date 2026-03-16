@@ -1,8 +1,8 @@
 import {
   addComment,
   deletePost,
-  getMyVote,
   getPosts,
+  getUserVote,
   markHelpfulComment,
   reportTarget,
   votePost
@@ -230,7 +230,7 @@ function createPostCard(post) {
 
   const votes = document.createElement("div")
   votes.className = "vote-box"
-  const myVote = getMyVote(post.id, currentUser?.id)
+  const myVote = getUserVote(post, currentUser?.id)
 
   const yesBtn = document.createElement("button")
   yesBtn.type = "button"
@@ -384,7 +384,7 @@ function renderActiveView() {
   renderFeed(feedData.needsFeedback, "아직 게시물이 없어요. 첫 작업을 올려보세요.")
 }
 
-function render() {
+async function render() {
   if (!currentUser) {
     document.body.classList.add("login-only")
     activeFeed.innerHTML = ""
@@ -394,7 +394,7 @@ function render() {
 
   document.body.classList.remove("login-only")
 
-  const posts = getPosts()
+  const posts = await getPosts()
   feedData = partitionPosts(posts)
 
   if (currentView === "popular" && feedData.popular.length === 0) {
@@ -420,13 +420,13 @@ document.addEventListener("click", async (event) => {
 
   if (button.dataset.action === "vote") {
     const { postId, choice } = button.dataset
-    const updated = votePost(postId, choice, currentUser.id)
+    const updated = await votePost(postId, choice, currentUser.id)
     if (updated) render()
   }
 
   if (button.dataset.action === "helpful") {
     const { postId, commentId } = button.dataset
-    const updated = markHelpfulComment(postId, commentId, currentUser.id)
+    const updated = await markHelpfulComment(postId, commentId, currentUser.id)
     if (updated) {
       render()
     }
@@ -437,7 +437,7 @@ document.addEventListener("click", async (event) => {
     const shouldDelete = window.confirm("이 게시물을 삭제할까요?")
     if (!shouldDelete) return
 
-    const deleted = deletePost(postId, currentUser.id)
+    const deleted = await deletePost(postId, currentUser.id)
     if (deleted) {
       render()
     }
@@ -448,7 +448,7 @@ document.addEventListener("click", async (event) => {
     const reason = await showReportReasonModal("게시물 신고", POST_REPORT_REASONS)
     if (!reason) return
 
-    const result = reportTarget("post", postId, currentUser.id, postId, reason)
+    const result = await reportTarget("post", postId, currentUser.id, postId, reason)
     if (result.ok) {
       window.alert("신고가 접수되었습니다.")
     } else if (result.reason === "duplicate") {
@@ -461,7 +461,7 @@ document.addEventListener("click", async (event) => {
     const reason = await showReportReasonModal("코멘트 신고", COMMENT_REPORT_REASONS)
     if (!reason) return
 
-    const result = reportTarget("comment", commentId, currentUser.id, postId, reason)
+    const result = await reportTarget("comment", commentId, currentUser.id, postId, reason)
     if (result.ok) {
       window.alert("신고가 접수되었습니다.")
     } else if (result.reason === "duplicate") {
@@ -470,7 +470,7 @@ document.addEventListener("click", async (event) => {
   }
 })
 
-document.addEventListener("submit", (event) => {
+document.addEventListener("submit", async (event) => {
   const form = event.target
   if (!form.classList.contains("comment-form") || !currentUser) return
 
@@ -480,7 +480,7 @@ document.addEventListener("submit", (event) => {
   const text = input.value.trim()
   if (!text) return
 
-  const updated = addComment(form.dataset.postId, text, {
+  const updated = await addComment(form.dataset.postId, text, {
     id: currentUser.id,
     name: getDisplayName(currentUser),
     visibility: visibilityInput?.value || "anonymous"
