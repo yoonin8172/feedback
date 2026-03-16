@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Feedback</title>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="title-wrap">
+      <div>
+        <h1>Design Feedback</h1>
+      </div>
+      <div class="session-badge-wrap">
+        <div class="feed-toggle" role="tablist" aria-label="피드 보기 전환">
+          <button id="tabNeeds" class="toggle-btn active" type="button" data-view="needs">피드백 필요</button>
+          <button id="tabPopular" class="toggle-btn" type="button" data-view="popular">반응 많음</button>
+        </div>
+        <div class="session-user-wrap">
+          <span id="sessionName" class="session-badge"></span>
+          <button id="switchSessionBtn" class="mini-btn session-switch-btn" type="button">사용자 변경</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout single-feed-layout">
+    <section class="feed-section">
+      <div class="section-head">
+        <h2 id="feedTitle">피드백이 필요한 작업</h2>
+        <span id="feedCount" class="count-badge"></span>
+      </div>
+      <div id="activeFeed" class="feed-list"></div>
+    </section>
+  </main>
+
+  <section id="sessionGate" class="session-gate hidden">
+    <div class="session-card">
+      <h2>Design Feedback</h2>
+      <p>작업 크리틱 플랫폼</p>
+      <div class="session-nickname">
+        <input id="nicknameInput" type="text" maxlength="18" placeholder="닉네임을 입력하세요">
+        <button id="nicknameStartBtn" class="submit-btn login-start-btn" type="button">시작하기</button>
+      </div>
+      <p id="sessionError" class="form-message error"></p>
+    </div>
+  </section>
+
+  <button class="upload-btn" onclick="location.href='upload.html'" aria-label="작업 업로드">
+    +
+  </button>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

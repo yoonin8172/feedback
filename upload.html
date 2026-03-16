@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload</title>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="title-wrap">
+      <div>
+        <h1>작업 업로드</h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="upload-container">
+    <label class="upload-label" for="mediaInput">작업 이미지/영상 업로드 (선택, 최대 4개)</label>
+    <input type="file" id="mediaInput" accept="image/*,video/*" multiple>
+    <div id="imagePreview" class="image-preview"></div>
+
+    <label class="upload-label">공개 방식</label>
+    <div class="visibility-toggle">
+      <label><input type="radio" name="postVisibility" value="anonymous" checked> 익명</label>
+      <label><input type="radio" name="postVisibility" value="nickname"> 닉네임</label>
+    </div>
+
+    <label class="upload-label" for="descriptionInput">작업 설명</label>
+    <textarea id="descriptionInput" placeholder="작업 의도나 현재 고민 지점을 간단히 적어주세요." rows="4"></textarea>
+
+    <label class="upload-label">피드백 받고 싶은 항목 (1개)</label>
+    <div class="question-chips">
+      <button type="button" class="chip" data-question="컨셉이 명확히 전달되나요?">컨셉 전달</button>
+      <button type="button" class="chip" data-question="타이포가 잘 읽히나요?">타이포 가독성</button>
+      <button type="button" class="chip" data-question="색감 조화가 자연스러운가요?">색감 조화</button>
+      <button type="button" class="chip" data-question="레이아웃 균형이 안정적인가요?">레이아웃 균형</button>
+      <button type="button" class="chip" data-question="전체 완성도가 충분한가요?">전체적인 완성도</button>
+      <button type="button" class="chip" data-question="기타">기타</button>
+    </div>
+
+    <input type="text" id="customQuestion" placeholder="기타 질문을 입력하세요." style="display:none">
+
+    <button id="submitBtn" class="submit-btn">게시하기</button>
+    <p id="formMessage" class="form-message"></p>
+  </main>
+
+  <script type="module" src="/src/upload.js"></script>
+</body>
+
+</html>
