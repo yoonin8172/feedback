@@ -13,6 +13,10 @@
   box-sizing: border-box;
 }
 
+button {
+  touch-action: manipulation;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -330,8 +334,12 @@ body {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
+  color: var(--text);
   padding: 7px 10px;
   font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
   cursor: pointer;
 }
 
@@ -703,6 +711,25 @@ body.login-only #sessionError {
 
   .session-user-wrap {
     align-items: flex-end;
+  }
+
+  .comment-form {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+  }
+
+  .comment-form input {
+    grid-column: 1 / -1;
+  }
+
+  .comment-form input,
+  .visibility-select,
+  .mini-btn,
+  .upload-container input[type="text"],
+  .upload-container textarea,
+  .submit-btn {
+    font-size: 16px;
   }
 
   .image-preview,

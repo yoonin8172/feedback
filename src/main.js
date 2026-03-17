@@ -274,7 +274,7 @@ function createPostCard(post) {
       <option value="anonymous">익명</option>
       <option value="nickname">닉네임</option>
     </select>
-    <button type="submit" class="mini-btn">등록</button>
+    <button type="submit" class="mini-btn">전송</button>
   `
   card.appendChild(commentForm)
 
